@@ -1,0 +1,42 @@
+// Copyright (C) 2021 Christoph Görn
+//
+// This file is part of rebuldah.
+//
+// rebuldah is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// rebuldah is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with rebuldah.  If not, see <http://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package ninja.thoth_station.rebuildah;
+
+message Empty {}
+
+// A semantic version string
+message SemanticVersion {
+  int32 major = 1;
+  int32 minor = 2;
+  int32 patch = 3;
+  string metadata = 4;
+  string prerelease = 5;
+}
+
+// A Container Image Repository
+message ContainerRepository {
+  string RepositoryURI = 1; // for now this is a quay repository, so: "org/repo"
+}
+
+service ReleaseEngineering {
+  rpc GetCurrentRelease(ContainerRepository) returns (SemanticVersion) {}
+
+  rpc PushEvent(ContainerRepository) returns (Empty) {}
+}
